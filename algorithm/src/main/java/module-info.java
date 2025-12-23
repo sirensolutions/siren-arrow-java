@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-module org.apache.arrow.algorithm {
+module arrow.algorithm.siren {
   exports org.apache.arrow.algorithm.search;
   exports org.apache.arrow.algorithm.deduplicate;
   exports org.apache.arrow.algorithm.dictionary;
@@ -24,6 +24,5 @@ module org.apache.arrow.algorithm {
   exports org.apache.arrow.algorithm.sort;
 
   requires jdk.unsupported;
-  requires org.apache.arrow.memory.core;
-  requires org.apache.arrow.vector;
+  requires arrow.vector.siren;
 }
