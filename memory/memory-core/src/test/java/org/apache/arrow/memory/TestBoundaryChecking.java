@@ -17,7 +17,6 @@
 package org.apache.arrow.memory;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.lang.reflect.Field;
 import java.net.URLClassLoader;
@@ -55,15 +54,15 @@ public class TestBoundaryChecking {
   }
 
   /**
-   * Ensure the flag for bounds checking is enabled by default. This will protect users from JVM
-   * crashes.
+   * Siren: Ensure the flag for bounds checking is disabled by default. Enabling it will protect
+   * users from JVM crashes.
    */
   @Test
   public void testDefaultValue() throws Exception {
     ClassLoader classLoader = copyClassLoader();
     if (classLoader != null) {
       boolean boundsCheckingEnabled = getFlagValue(classLoader);
-      assertTrue(boundsCheckingEnabled);
+      assertFalse(boundsCheckingEnabled);
     }
   }
 
