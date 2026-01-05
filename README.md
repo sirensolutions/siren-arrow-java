@@ -59,9 +59,11 @@ mvn versions:set -DnewVersion=siren-0.14.1-2
 git tag --sign siren-0.14.1-2
 ````
 
-- Deploy to Siren's artifactory
+- Deploy to Siren's Google Artifact Registry:
 ```sh
-$ mvn deploy -DskipTests=true -P artifactory -Dartifactory_username=<USERNAME> -Dartifactory_password=<PASSWORD>
+$ mvn deploy:deploy-file \
+  -Durl=artifactregistry://europe-west1-maven.pkg.dev/siren-cicd/maven-local-siren-snapshot \
+  -DpomFile=pom.xml -Dfile=target/arrow-jar-path
 ```
 ## Update to a new version of Siren's Apache Arrow
 Developer tips on updating to a new version of Arrow can be found here: https://sirensolutions.atlassian.net/wiki/spaces/EN/pages/3108864001/Upgrading+Federate+Apache+Arrow+Version .
