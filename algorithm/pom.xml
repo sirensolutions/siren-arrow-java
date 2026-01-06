@@ -22,7 +22,7 @@ under the License.
   <parent>
     <groupId>org.apache.arrow</groupId>
     <artifactId>arrow-java-root</artifactId>
-    <version>18.3.0</version>
+    <version>siren-18.3.0-1-SNAPSHOT</version>
   </parent>
   <artifactId>arrow-algorithm</artifactId>
   <name>Arrow Algorithms</name>
@@ -32,22 +32,14 @@ under the License.
     <dependency>
       <groupId>org.apache.arrow</groupId>
       <artifactId>arrow-vector</artifactId>
-      <classifier>${arrow.vector.classifier}</classifier>
+      <version>${project.version}</version>
+      <classifier>shade</classifier>
     </dependency>
     <dependency>
       <groupId>org.apache.arrow</groupId>
       <artifactId>arrow-vector</artifactId>
       <version>${project.version}</version>
       <type>test-jar</type>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.arrow</groupId>
-      <artifactId>arrow-memory-core</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.arrow</groupId>
-      <artifactId>arrow-memory-netty</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>

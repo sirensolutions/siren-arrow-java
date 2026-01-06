@@ -22,7 +22,7 @@ under the License.
   <parent>
     <groupId>org.apache.arrow</groupId>
     <artifactId>arrow-java-root</artifactId>
-    <version>18.3.0</version>
+    <version>siren-18.3.0-1-SNAPSHOT</version>
   </parent>
 
   <groupId>org.apache.arrow.gandiva</groupId>
@@ -40,6 +40,7 @@ under the License.
     <dependency>
       <groupId>org.apache.arrow</groupId>
       <artifactId>arrow-memory-core</artifactId>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.immutables</groupId>
@@ -66,6 +67,7 @@ under the License.
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
+      <scope>provided</scope>
     </dependency>
   </dependencies>
 

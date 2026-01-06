@@ -34,10 +34,10 @@ public class MemoryUtil {
   private static final @Nullable Constructor<?> DIRECT_BUFFER_CONSTRUCTOR;
 
   /** The unsafe object from which to access the off-heap memory. */
-  private static final Unsafe UNSAFE;
+  public static final Unsafe UNSAFE;
 
   /** The start offset of array data relative to the start address of the array object. */
-  private static final long BYTE_ARRAY_BASE_OFFSET;
+  public static final long BYTE_ARRAY_BASE_OFFSET;
 
   /** The offset of the address field with the {@link java.nio.ByteBuffer} object. */
   private static final long BYTE_BUFFER_ADDRESS_OFFSET;
@@ -82,7 +82,6 @@ public class MemoryUtil {
 
       // get the offset of the address field in a java.nio.Buffer object
       Field addressField = java.nio.Buffer.class.getDeclaredField("address");
-      addressField.setAccessible(true);
       BYTE_BUFFER_ADDRESS_OFFSET = UNSAFE.objectFieldOffset(addressField);
 
       Constructor<?> directBufferConstructor;
@@ -103,10 +102,7 @@ public class MemoryUtil {
                       constructor.setAccessible(true);
                       logger.debug("Constructor for direct buffer found and made accessible");
                       return constructor;
-                    } catch (NoSuchMethodException e) {
-                      logger.debug("Cannot get constructor for direct buffer allocation", e);
-                      return e;
-                    } catch (SecurityException e) {
+                    } catch (Exception e) {
                       logger.debug("Cannot get constructor for direct buffer allocation", e);
                       return e;
                     }

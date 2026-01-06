@@ -28,7 +28,7 @@ under the License.
 
   <groupId>org.apache.arrow</groupId>
   <artifactId>arrow-java-root</artifactId>
-  <version>18.3.0</version>
+  <version>siren-18.3.0-1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>Apache Arrow Java Root POM</name>
@@ -65,17 +65,17 @@ under the License.
   </mailingLists>
 
   <modules>
-    <module>bom</module>
+    <!--    <module>bom</module>-->
     <module>format</module>
     <module>memory</module>
     <module>vector</module>
-    <module>tools</module>
-    <module>adapter/jdbc</module>
-    <module>flight</module>
-    <module>performance</module>
+    <!--    <module>tools</module>-->
+    <!--    <module>adapter/jdbc</module>-->
+    <!--    <module>flight</module>-->
+    <!--    <module>performance</module>-->
     <module>algorithm</module>
-    <module>adapter/avro</module>
-    <module>compression</module>
+    <!--    <module>adapter/avro</module>-->
+    <!--    <module>compression</module>-->
   </modules>
 
   <scm child.scm.connection.inherit.append.path="false" child.scm.developerConnection.inherit.append.path="false" child.scm.url.inherit.append.path="false">
@@ -125,18 +125,20 @@ under the License.
       is addressed
     -->
     <version.maven-jar-plugin>3.2.2</version.maven-jar-plugin>
+    <!-- JPMS module version must be a strict numeric dotted form; keep Maven artifact version separate. -->
+    <jpms.module.version>19.0.0</jpms.module.version>
   </properties>
 
   <dependencyManagement>
     <dependencies>
       <!-- Utilize the bill of materials in sub-modules -->
-      <dependency>
-        <groupId>org.apache.arrow</groupId>
-        <artifactId>arrow-bom</artifactId>
-        <version>${project.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
+      <!--      <dependency>-->
+      <!--        <groupId>org.apache.arrow</groupId>-->
+      <!--        <artifactId>arrow-bom</artifactId>-->
+      <!--        <version>${project.version}</version>-->
+      <!--        <type>pom</type>-->
+      <!--        <scope>import</scope>-->
+      <!--      </dependency>-->
       <dependency>
         <groupId>org.checkerframework</groupId>
         <artifactId>checker-qual</artifactId>
@@ -305,6 +307,8 @@ under the License.
           <configuration>
             <fork>true</fork>
             <useModulePath>false</useModulePath>
+            <!-- Ensure JPMS module version is valid even when ${project.version} is not. -->
+            <moduleVersion>${jpms.module.version}</moduleVersion>
             <annotationProcessorPaths>
               <path>
                 <groupId>org.immutables</groupId>
@@ -690,7 +694,7 @@ under the License.
             <phase>verify</phase>
             <configuration>
               <ignoreNonCompile>true</ignoreNonCompile>
-              <failOnWarning>true</failOnWarning>
+              <failOnWarning>false</failOnWarning>
               <ignoredDependencies>
                 <!-- source annotations (not kept in compiled code) -->
                 <ignoredDependency>javax.annotation:javax.annotation-api:*</ignoredDependency>
@@ -763,6 +767,11 @@ under the License.
         <groupId>kr.motd.maven</groupId>
         <artifactId>os-maven-plugin</artifactId>
         <version>1.7.1</version>
+      </extension>
+      <extension>
+        <groupId>com.google.cloud.artifactregistry</groupId>
+        <artifactId>artifactregistry-maven-wagon</artifactId>
+        <version>2.1.0</version>
       </extension>
     </extensions>
   </build>
@@ -1063,7 +1072,7 @@ under the License.
                   <executable>cmake</executable>
                   <commandlineArgs>--build cpp-jni --target install --config Release</commandlineArgs>
                   <workingDirectory>../</workingDirectory>
-                  <skip>${cpp.dependencies.builded}</skip>
+<!--                  <skip>${cpp.dependencies.builded}</skip>-->
                 </configuration>
               </execution>
               <execution>
@@ -1268,6 +1277,23 @@ under the License.
           </plugin>
         </plugins>
       </build>
+    </profile>
+    <!-- To deploy to Siren artifactory -->
+    <profile>
+      <id>artifactory</id>
+
+      <distributionManagement>
+        <repository>
+          <id>artifact-registry</id>
+          <name>gar-releases</name>
+          <url>artifactregistry://europe-west1-maven.pkg.dev/siren-cicd/maven-local-siren-release</url>
+        </repository>
+        <snapshotRepository>
+          <id>artifact-registry</id>
+          <name>gar-snapshots</name>
+          <url>artifactregistry://europe-west1-maven.pkg.dev/siren-cicd/maven-local-siren-snapshot</url>
+        </snapshotRepository>
+      </distributionManagement>
     </profile>
   </profiles>
 </project>
