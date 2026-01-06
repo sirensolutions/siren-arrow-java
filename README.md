@@ -61,9 +61,21 @@ git tag --sign siren-0.14.1-2
 
 - Deploy to Siren's Google Artifact Registry:
 ```sh
+# Deploy all modules (format, memory, vector, algorithm)
+$ mvn -pl memory,memory/memory-core,memory/memory-unsafe,format,vector,algorithm deploy \
+  -Dsiren.arrow.enable_unsafe_memory_access=false \
+  -Dsiren.drill.enable_unsafe_memory_access=false \
+  -DskipTests \
+  -DaltDeploymentRepository=gar-maven-local-siren-snapshot::default::artifactregistry://europe-west1-maven.pkg.dev/siren-cicd/maven-local-siren-snapshot
+
+# Deploy the parent POM
 $ mvn deploy:deploy-file \
   -Durl=artifactregistry://europe-west1-maven.pkg.dev/siren-cicd/maven-local-siren-snapshot \
-  -DpomFile=pom.xml -Dfile=target/arrow-jar-path
+  -DpomFile=pom.xml -Dfile=pom.xml \
+  -DgroupId=org.apache.arrow \
+  -DartifactId=arrow-java-root \
+  -Dversion=siren-19.0.0-1-SNAPSHOT \
+  -Dpackaging=pom
 ```
 ## Update to a new version of Siren's Apache Arrow
 Developer tips on updating to a new version of Arrow can be found here: https://sirensolutions.atlassian.net/wiki/spaces/EN/pages/3108864001/Upgrading+Federate+Apache+Arrow+Version .

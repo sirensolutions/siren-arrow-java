@@ -26,7 +26,7 @@ import org.junit.jupiter.api.condition.EnabledForJreRange;
 public class TestOpens {
   /** Instantiating the RootAllocator should poke MemoryUtil and fail. */
   @Test
-  @EnabledForJreRange(min = JAVA_16)
+  @EnabledForJreRange(max = JAVA_16)
   public void testMemoryUtilFailsLoudly() {
     // This test is configured by Maven to run WITHOUT add-opens. So this should fail on JDK16+
     // (where JEP396 means that add-opens is required to access JDK internals).

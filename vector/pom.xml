@@ -64,11 +64,14 @@ under the License.
       <artifactId>commons-codec</artifactId>
       <version>1.20.0</version>
     </dependency>
+    <!--
     <dependency>
       <groupId>org.apache.arrow</groupId>
       <artifactId>arrow-memory-netty</artifactId>
+      <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
+    -->
     <dependency>
       <groupId>org.apache.arrow</groupId>
       <artifactId>arrow-memory-unsafe</artifactId>
