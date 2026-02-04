@@ -106,6 +106,9 @@ public class MemoryUtil {
                     } catch (NoSuchMethodException e) {
                       logger.debug("Cannot get constructor for direct buffer allocation", e);
                       return e;
+                    } catch (SecurityException e) {
+                      logger.debug("Cannot get constructor for direct buffer allocation", e);
+                      return e;
                     } catch (InaccessibleObjectException e) {
                       logger.debug("Cannot get constructor for direct buffer allocation", e);
                       return e;
