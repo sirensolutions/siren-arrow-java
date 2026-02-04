@@ -18,6 +18,7 @@ package org.apache.arrow.memory.util;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InaccessibleObjectException;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -102,7 +103,10 @@ public class MemoryUtil {
                       constructor.setAccessible(true);
                       logger.debug("Constructor for direct buffer found and made accessible");
                       return constructor;
-                    } catch (Exception e) {
+                    } catch (NoSuchMethodException e) {
+                      logger.debug("Cannot get constructor for direct buffer allocation", e);
+                      return e;
+                    } catch (InaccessibleObjectException e) {
                       logger.debug("Cannot get constructor for direct buffer allocation", e);
                       return e;
                     }
