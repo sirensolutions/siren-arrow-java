@@ -18,7 +18,6 @@ package org.apache.arrow.memory.util;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.lang.reflect.InaccessibleObjectException;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -83,6 +82,7 @@ public class MemoryUtil {
 
       // get the offset of the address field in a java.nio.Buffer object
       Field addressField = java.nio.Buffer.class.getDeclaredField("address");
+      addressField.setAccessible(true);
       BYTE_BUFFER_ADDRESS_OFFSET = UNSAFE.objectFieldOffset(addressField);
 
       Constructor<?> directBufferConstructor;
@@ -107,9 +107,6 @@ public class MemoryUtil {
                       logger.debug("Cannot get constructor for direct buffer allocation", e);
                       return e;
                     } catch (SecurityException e) {
-                      logger.debug("Cannot get constructor for direct buffer allocation", e);
-                      return e;
-                    } catch (InaccessibleObjectException e) {
                       logger.debug("Cannot get constructor for direct buffer allocation", e);
                       return e;
                     }
