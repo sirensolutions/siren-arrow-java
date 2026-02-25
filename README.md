@@ -67,6 +67,7 @@ $ mvn -pl memory,memory/memory-core,memory/memory-unsafe,format,vector,algorithm
   -Dsiren.drill.enable_unsafe_memory_access=false \
   -DskipTests \
   -DaltDeploymentRepository=gar-maven-local-siren-snapshot::default::artifactregistry://europe-west1-maven.pkg.dev/siren-cicd/maven-local-siren-snapshot
+  
 # Deploy the parent POM
 $ mvn deploy:deploy-file \
   -Durl=artifactregistry://europe-west1-maven.pkg.dev/siren-cicd/maven-local-siren-snapshot \
