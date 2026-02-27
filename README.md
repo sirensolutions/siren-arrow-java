@@ -74,7 +74,7 @@ $ mvn deploy:deploy-file \
   -DpomFile=pom.xml -Dfile=pom.xml \
   -DgroupId=org.apache.arrow \
   -DartifactId=arrow-java-root \
-  -Dversion=siren-18.3.0-1-SNAPSHOT \
+  -Dversion=siren-18.3.0-1 \
   -Dpackaging=pom
 ```
 ## Update to a new version of Siren's Apache Arrow
