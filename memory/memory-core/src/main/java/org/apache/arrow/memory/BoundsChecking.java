@@ -35,13 +35,13 @@ public class BoundsChecking {
     String oldProperty = System.getProperty("drill.enable_unsafe_memory_access");
     if (oldProperty != null) {
       logger.warn(
-          "\"drill.enable_unsafe_memory_access\" has been renamed to \"arrow.enable_unsafe_memory_access\"");
+          "\"drill.enable_unsafe_memory_access\" has been renamed to "
+              + "\"arrow.enable_unsafe_memory_access\"");
       logger.warn(
           "\"arrow.enable_unsafe_memory_access\" can be set to: "
-              + " true (to not check) or false (to check, default)");
+              + " true (to not check, default) or false (to check)");
     }
     String newProperty = System.getProperty("arrow.enable_unsafe_memory_access");
-
     // The priority of determining the unsafe flag:
     // 1. The system properties take precedence over the environmental variable.
     // 2. The new system property takes precedence over the new system property.

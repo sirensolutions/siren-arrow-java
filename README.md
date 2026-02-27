@@ -17,7 +17,73 @@
   under the License.
 -->
 
-# Arrow Java
+# Siren fork of Arrow Java
+
+The properties `drill.enable_unsafe_memory_access` and
+`arrow.enable_unsafe_memory_access` are prefixed with `siren` and their
+default value is set to `true`. The first property is deprecated.
+
+## Check that Arrow uses Unsafe class to access off-heap memory for memory allocation
+In order to check that Arrow uses Unsafe class for memory allocation, run the unit test `CheckArrowTest` in
+`https://github.com/sirensolutions/siren-platform/blob/master/core/src/test/java/io/siren/federate/core/common/CheckArrowTest.java`.
+
+## Build
+
+To build the `memory`, `format`, `vector` and `algorithm` modules:
+
+```sh
+$ cd java
+$ mvn clean package
+```
+
+Because of the default value change of `unsafe_memory_access` property, some
+tests in `vector` fail.
+
+```sh
+mvn -pl memory,memory/memory-core,memory/memory-unsafe,format,vector,algorithm install -Dsiren.arrow.enable_unsafe_memory_access=false -Dsiren.drill.enable_unsafe_memory_access=false
+```
+
+## Make a new release of Siren's Apache Arrow
+
+- Tests should pass.
+
+- Make a new version:
+
+```sh
+mvn versions:set -DnewVersion=siren-0.14.1-2
+```
+
+- tag the commit for the release
+
+```sh
+git tag --sign siren-0.14.1-2
+````
+
+- Deploy to Siren's Google Artifact Registry:
+```sh
+# Deploy all modules (format, memory, vector, algorithm)
+$ mvn -pl memory,memory/memory-core,memory/memory-unsafe,format,vector,algorithm deploy \
+  -Dsiren.arrow.enable_unsafe_memory_access=false \
+  -Dsiren.drill.enable_unsafe_memory_access=false \
+  -DskipTests \
+  -DaltDeploymentRepository=gar-maven-local-siren-snapshot::default::artifactregistry://europe-west1-maven.pkg.dev/siren-cicd/maven-local-siren-snapshot
+  
+# Deploy the parent POM
+$ mvn deploy:deploy-file \
+  -Durl=artifactregistry://europe-west1-maven.pkg.dev/siren-cicd/maven-local-siren-snapshot \
+  -DpomFile=pom.xml -Dfile=pom.xml \
+  -DgroupId=org.apache.arrow \
+  -DartifactId=arrow-java-root \
+  -Dversion=siren-18.3.0-1-SNAPSHOT \
+  -Dpackaging=pom
+```
+## Update to a new version of Siren's Apache Arrow
+Developer tips on updating to a new version of Arrow can be found here: https://sirensolutions.atlassian.net/wiki/spaces/EN/pages/3108864001/Upgrading+Federate+Apache+Arrow+Version .
+
+- add `git@github.com:apache/arrow-java.git` as the `upstream` remote.
+- execute `git fetch --all --tags`
+- create a temporary branch from `siren-changes`
+- rebase against the new tag.
 
 ## Getting Started
 
